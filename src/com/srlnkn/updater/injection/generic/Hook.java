@@ -20,7 +20,7 @@ public class Hook {
         fieldHooks.put(fieldName,new FieldHook(fieldName, fieldLocation, fieldReturn));
     }
 
-    public void addFieldHook(String fieldName, String fieldLocation, String fieldReturn, int multiplier){
+    public void addFieldHook(String fieldName, String fieldLocation, String fieldReturn, long multiplier){
         fieldHooks.put(fieldName, new FieldHook(fieldName, fieldLocation, fieldReturn, multiplier));
     }
 

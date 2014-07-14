@@ -4,14 +4,14 @@ public class FieldHook {
     private final String fieldName;
     private final String fieldLocation;
     private final String fieldReturn;
-    private int multiplier = -1;
+    private long multiplier = -1;
 
     public FieldHook(String fieldName, String fieldLocation, String fieldReturn ){
         this.fieldName = fieldName;
         this.fieldLocation = fieldLocation;
         this.fieldReturn = fieldReturn;
     }
-    public FieldHook(String fieldName, String fieldLocation, String fieldReturn, int multiplier ){
+    public FieldHook(String fieldName, String fieldLocation, String fieldReturn, long multiplier ){
         this.fieldName = fieldName;
         this.fieldLocation = fieldLocation;
         this.fieldReturn = fieldReturn;
@@ -30,11 +30,11 @@ public class FieldHook {
         return fieldReturn;
     }
 
-    public int getMultiplier(){
+    public long getMultiplier(){
         return multiplier;
     }
 
-    public void setMultiplier(int multiplier){
+    public void setMultiplier(long multiplier){
         this.multiplier = multiplier;
     }
 }

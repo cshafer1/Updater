@@ -105,6 +105,6 @@ public class Updater {
             System.out.println("Error constructing client");
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error loading... please check your internet connection.", "Error loading..", JOptionPane.ERROR_MESSAGE);
-         }
+        }
     }
 }
