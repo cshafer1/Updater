@@ -94,9 +94,9 @@ public class Updater {
 
                 } else {
                     if (CustomRevison > 0) { //Most likely reason for not finding our Client
-                        System.out.println(" Couldn't find client"+CustomRevison+".jar in directory appData/SRLUpdater/");
+                        System.out.println(" Couldn't find client"+CustomRevison+".jar in directory AppData/Roaming/SRLUpdater/");
                     } else {
-                        System.out.println(" Couldn't find client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar in directory appData/SRLUpdater/");
+                        System.out.println(" Couldn't find client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar in directory AppData/Roaming/SRLUpdater/");
                     }
                 }
 

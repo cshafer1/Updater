@@ -168,3 +168,23 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+Updater.iml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+.idea/workspace.xml
+asm-all-4.1.jar
+out/production/Updater/com/srlnkn/Main.class
+out/production/Updater/com/srlnkn/updater/injection/generic/AbstractAnalyzer.class
+out/production/Updater/com/srlnkn/updater/injection/generic/FieldAnalyzer.class
+out/production/Updater/com/srlnkn/updater/injection/generic/FieldHook.class
+out/production/Updater/com/srlnkn/updater/injection/generic/Hook.class
+out/production/Updater/com/srlnkn/updater/Updater.class
+out/production/Updater/com/srlnkn/updater/utils/Configs.class
+out/production/Updater/com/srlnkn/updater/utils/JarUtils.class
+out/production/Updater/com/srlnkn/updater/utils/Utils.class
