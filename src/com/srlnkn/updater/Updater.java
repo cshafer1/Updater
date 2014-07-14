@@ -56,32 +56,39 @@ public class Updater {
                     System.out.println("\n//Downloading Initial Client");
                     Utils.downloadFile(jarLink, tempCachedClient);
                 }
-                HashMap<String, ClassNode> tempClassMap = JarUtils.parseJar(new JarFile(tempCachedClient));
-                File cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
-                if((JarUtils.isUpdated(tempClassMap.get("client"), jarLink)) && (CustomRevison < 1)){
-                    System.out.println("\n//Downloading Client "+JarUtils.getRevision(tempClassMap.get("client")));
-                    cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
-                    Utils.downloadFile(jarLink, cachedClient);
-                    Utils.copyFileUsingFileChannels(cachedClient, tempCachedClient);
-                } else if (Downloaded) {
-                    System.out.println("\n//Using Client "+JarUtils.getRevision(tempClassMap.get("client")));
-                    cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
-                    Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient);
-                } else if (CustomRevison > 0) {
-                    System.out.println("\n//Using Client "+CustomRevison);
-                    cachedClient = new File(Configs.HOME, "client"+CustomRevison+".jar");
+                File cachedClient = null;
+                if (CustomRevison < 1) {
+                    HashMap<String, ClassNode> tempClassMap = JarUtils.parseJar(new JarFile(tempCachedClient));
+                    if(JarUtils.isUpdated(tempClassMap.get("client"), jarLink)){
+                        System.out.println("\n//Downloading Client "+JarUtils.getRevision(tempClassMap.get("client")));
+                        cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
+                        Utils.downloadFile(jarLink, cachedClient);
+                        Utils.copyFileUsingFileChannels(cachedClient, tempCachedClient);
+                    } else if (Downloaded) {
+                        System.out.println("\n//Using Client "+JarUtils.getRevision(tempClassMap.get("client")));
+                        cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
+                        Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient);
+                    } else {
+                        System.out.println("\n//Using Client "+JarUtils.getRevision(tempClassMap.get("client")));
+                        cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
+                    }
                 } else {
-                    System.out.println("\n//Using Client "+JarUtils.getRevision(tempClassMap.get("client")));
-                    cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
+                    if (tempCachedClient.exists()) {
+                        System.out.println("\n//Using Client "+CustomRevison);
+                        cachedClient = new File(Configs.HOME, "client"+CustomRevison+".jar");
+                    } else {
+                        System.out.println(" Couldn't find client"+CustomRevison+".jar in directory AppData/Roaming/SRLUpdater/");
+                        System.exit(0);
+                    }
                 }
-
                 if (cachedClient.exists()) { //Only continue if the final client exists
                     HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
 
+                    System.out.println(" ");
                     System.out.println("{*");
                     System.out.println("**  SRL's Un-Named Updater");
                     System.out.println("**    Developed by");
-                    System.out.println("**      NKN, Krazy_Meerkat and JJ.");
+                    System.out.println("**      NKN, JJ and Krazy_Meerkat");
                     System.out.println("*}");
                     System.out.println(" ");
                     System.out.println("const");
@@ -91,23 +98,12 @@ public class Updater {
                         System.out.println(" ReflectionRevision = '"+JarUtils.getRevision(ClassMap.get("client"))+"';");
                     }
                     System.out.println(" ");
-
-                } else {
-                    if (CustomRevison > 0) { //Most likely reason for not finding our Client
-                        System.out.println(" Couldn't find client"+CustomRevison+".jar in directory AppData/Roaming/SRLUpdater/");
-                    } else {
-                        System.out.println(" Couldn't find client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar in directory AppData/Roaming/SRLUpdater/");
-                    }
                 }
-
             }
-
-
-
         } catch (Exception e) {
             System.out.println("Error constructing client");
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error loading... please check your internet connection.", "Error loading..", JOptionPane.ERROR_MESSAGE);
-        }
+         }
     }
 }
