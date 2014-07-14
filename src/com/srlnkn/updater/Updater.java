@@ -59,18 +59,19 @@ public class Updater {
                 File cachedClient = null;
                 if (CustomRevison < 1) {
                     HashMap<String, ClassNode> tempClassMap = JarUtils.parseJar(new JarFile(tempCachedClient));
-                    if(JarUtils.isUpdated(tempClassMap.get("client"), jarLink)){
-                        System.out.println("\n//Downloading Client "+JarUtils.getRevision(tempClassMap.get("client")));
-                        cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
+                    Integer RevisionNumber = JarUtils.getRevision(tempClassMap.get("client"));
+                    if (Downloaded) {
+                        System.out.println("\n//Using Client "+RevisionNumber);
+                        cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
+                        Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient); //Create Revision-Stamped client
+                    } else if (JarUtils.isUpdated(tempClassMap.get("client"), jarLink)) {
+                        System.out.println("\n//Downloading Client "+RevisionNumber);
+                        cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                         Utils.downloadFile(jarLink, cachedClient);
-                        Utils.copyFileUsingFileChannels(cachedClient, tempCachedClient);
-                    } else if (Downloaded) {
-                        System.out.println("\n//Using Client "+JarUtils.getRevision(tempClassMap.get("client")));
-                        cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
-                        Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient);
+                        Utils.copyFileUsingFileChannels(cachedClient, tempCachedClient); //Update client.jar for the initial revision check
                     } else {
-                        System.out.println("\n//Using Client "+JarUtils.getRevision(tempClassMap.get("client")));
-                        cachedClient = new File(Configs.HOME, "client"+JarUtils.getRevision(tempClassMap.get("client"))+".jar");
+                        System.out.println("\n//Using Client "+RevisionNumber);
+                        cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                     }
                 } else {
                     if (tempCachedClient.exists()) {
