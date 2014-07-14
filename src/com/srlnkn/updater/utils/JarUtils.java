@@ -23,7 +23,7 @@ import java.util.jar.JarFile;
  */
 public class JarUtils {
 
-    private static int getRevision(ClassNode node){
+    public static int getRevision(ClassNode node){
         ListIterator<MethodNode> mnIt = node.methods.listIterator();
         while(mnIt.hasNext()){
             MethodNode mn = mnIt.next();

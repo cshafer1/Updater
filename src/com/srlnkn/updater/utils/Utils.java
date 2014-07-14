@@ -1,8 +1,8 @@
 package com.srlnkn.updater.utils;
 
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
-import sun.org.mozilla.javascript.internal.ast.Jump;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.JumpInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,9 +13,13 @@ import java.awt.image.ImageProducer;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.ListIterator;
+import java.util.Random;
+
 
 public final class Utils{
 
@@ -92,6 +96,19 @@ public final class Utils{
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
             System.out.println("Error while trying to sleep: " + ex.getMessage());
+        }
+    }
+    public static void copyFileUsingFileChannels(File source, File dest)
+            throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } finally {
+            inputChannel.close();
+            outputChannel.close();
         }
     }
 
