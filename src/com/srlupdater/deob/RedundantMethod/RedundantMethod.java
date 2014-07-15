@@ -13,14 +13,14 @@ import java.util.*;
  * @Author : NKN
  */
 public class RedundantMethod extends DeobFrame {
-   private HashMap<String, ClassNode> classes;
+   //private HashMap<String, ClassNode> classes;
 
-    public HashMap<String,ClassNode> RedundantMethod(HashMap<String,ClassNode> classes){
-        this.classes = classes;
-        return refactor(classes);
+    public RedundantMethod(HashMap<String,ClassNode> classes){
+        super(classes);
+
     }
     @Override
-    protected HashMap<String,ClassNode> refactor(HashMap<String,ClassNode> classes){
+    public HashMap<String,ClassNode> refactor(){
         HashMap<String,ClassNode> refactored = new HashMap<>();
         Iterator it = classes.entrySet().iterator();
         while(it.hasNext()){

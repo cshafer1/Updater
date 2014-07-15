@@ -10,9 +10,15 @@ import java.util.HashMap;
  */
 public abstract class DeobFrame {
 
+    public  HashMap<String, ClassNode> classes;
+
+    public DeobFrame(HashMap<String,ClassNode> classes){
+        this.classes = classes;
+    }
 
 
-    protected abstract HashMap<String,ClassNode> refactor(HashMap<String,ClassNode> classes);
+
+    public abstract HashMap<String,ClassNode> refactor();
 
 
 
