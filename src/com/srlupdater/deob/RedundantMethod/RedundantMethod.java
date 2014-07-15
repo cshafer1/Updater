@@ -1,6 +1,7 @@
 package com.srlupdater.deob.RedundantMethod;
 
 
+import com.srlupdater.deob.Generic.DeobFrame;
 import org.objectweb.asm.tree.ClassNode;
 
 import org.objectweb.asm.tree.MethodNode;
@@ -8,18 +9,18 @@ import org.objectweb.asm.tree.MethodNode;
 
 import java.util.*;
 
-/**
+/*
  * @Author : NKN
  */
-public class RedundantMethod {
+public class RedundantMethod extends DeobFrame {
    private HashMap<String, ClassNode> classes;
 
     public HashMap<String,ClassNode> RedundantMethod(HashMap<String,ClassNode> classes){
         this.classes = classes;
         return refactor(classes);
     }
-
-    private HashMap<String,ClassNode> refactor(HashMap<String,ClassNode> classes){
+    @Override
+    protected HashMap<String,ClassNode> refactor(HashMap<String,ClassNode> classes){
         HashMap<String,ClassNode> refactored = new HashMap<>();
         Iterator it = classes.entrySet().iterator();
         while(it.hasNext()){
