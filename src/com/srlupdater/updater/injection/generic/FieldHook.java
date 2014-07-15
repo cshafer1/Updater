@@ -1,4 +1,4 @@
-package com.srlnkn.updater.injection.generic;
+package com.srlupdater.updater.injection.generic;
 
 public class FieldHook {
     private final String fieldName;

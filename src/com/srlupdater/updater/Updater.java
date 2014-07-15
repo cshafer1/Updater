@@ -1,8 +1,9 @@
-package com.srlnkn.updater;
+package com.srlupdater.updater;
 
-import com.srlnkn.updater.utils.Configs;
-import com.srlnkn.updater.utils.JarUtils;
-import com.srlnkn.updater.utils.Utils;
+import com.srlupdater.deob.Deob;
+import com.srlupdater.updater.utils.Configs;
+import com.srlupdater.updater.utils.JarUtils;
+import com.srlupdater.updater.utils.Utils;
 import org.objectweb.asm.tree.ClassNode;
 
 
@@ -50,9 +51,7 @@ public class Updater {
                 if (CustomRevison > 0) {
                     tempCachedClient = new File(Configs.HOME, "client"+CustomRevison+".jar");
                 }
-                Boolean Downloaded = false;
                 if ((!tempCachedClient.exists()) && (CustomRevison < 1)) {
-                    Downloaded = true;
                     System.out.println("\n//Downloading Initial Client");
                     Utils.downloadFile(jarLink, tempCachedClient);
                 }
@@ -60,7 +59,7 @@ public class Updater {
                 if (CustomRevison < 1) {
                     HashMap<String, ClassNode> tempClassMap = JarUtils.parseJar(new JarFile(tempCachedClient));
                     Integer RevisionNumber = JarUtils.getRevision(tempClassMap.get("client"));
-                    if (Downloaded) {
+                    if (tempCachedClient.exists()) {
                         System.out.println("\n//Using Client "+RevisionNumber);
                         cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                         Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient); //Create Revision-Stamped client
@@ -84,7 +83,9 @@ public class Updater {
                 }
                 if (cachedClient.exists()) { //Only continue if the final client exists
                     HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
-
+                    Deob deob = new Deob(ClassMap);
+                    deob.test();
+                    System.exit(1);
                     System.out.println(" ");
                     System.out.println("{*");
                     System.out.println("**  SRL's Un-Named Updater");

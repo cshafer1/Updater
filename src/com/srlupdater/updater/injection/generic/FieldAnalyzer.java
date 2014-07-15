@@ -1,4 +1,4 @@
-package com.srlnkn.updater.injection.generic;
+package com.srlupdater.updater.injection.generic;
 
 
 import org.objectweb.asm.tree.ClassNode;

@@ -1,4 +1,4 @@
-package com.srlnkn.updater.utils;
+package com.srlupdater.updater.utils;
 
 import org.objectweb.asm.ClassReader;
 

@@ -1,4 +1,4 @@
-package com.srlnkn.updater.utils;
+package com.srlupdater.updater.utils;
 
 /**
  * @Author : NKN

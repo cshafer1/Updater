@@ -1,6 +1,6 @@
-package com.srlnkn;
+package com.srlupdater;
 
-import com.srlnkn.updater.Updater;
+import com.srlupdater.updater.Updater;
 
 public class Main {
 
