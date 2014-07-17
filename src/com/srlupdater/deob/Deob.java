@@ -1,8 +1,8 @@
 package com.srlupdater.deob;
 
+import com.srlupdater.deob.ArithmeticDeob.ArithmeticDeob;
 import com.srlupdater.deob.RedundantMethod.RedundantMethod;
-import org.objectweb.asm.tree.*;
-
+import org.objectweb.asm.tree.ClassNode;
 
 import java.util.HashMap;
 
@@ -16,7 +16,8 @@ public class Deob {
 
     public Deob(HashMap<String,ClassNode> classes){
         this.classes=classes;
-        //classes = new RedundantMethod(classes).refactor();
+        classes = new RedundantMethod(classes).refactor();
+        classes = new ArithmeticDeob(classes).refactor();
     }
 
 
