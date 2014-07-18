@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class Updater {
 
-    public Integer CustomRevison = 0; //This must be left at 0 when not in use.
+    public Integer CustomRevison = 54; //This must be left at 0 when not in use.
 
     public Updater(){
         try {
@@ -59,18 +59,20 @@ public class Updater {
                 if (CustomRevison < 1) {
                     HashMap<String, ClassNode> tempClassMap = JarUtils.parseJar(new JarFile(tempCachedClient));
                     Integer RevisionNumber = JarUtils.getRevision(tempClassMap.get("client"));
-                    if (tempCachedClient.exists()) {
+                    cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
+                    if (tempCachedClient.exists() && !cachedClient.exists()) {
                         System.out.println("\n//Using Client "+RevisionNumber);
                         cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                         Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient); //Create Revision-Stamped client
                     } else if (JarUtils.isUpdated(tempClassMap.get("client"), jarLink)) {
-                        System.out.println("\n//Downloading Client "+RevisionNumber);
+                        System.out.println("\n//Downloading Client "+ ++RevisionNumber);
                         cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                         Utils.downloadFile(jarLink, cachedClient);
                         Utils.copyFileUsingFileChannels(cachedClient, tempCachedClient); //Update client.jar for the initial revision check
                     } else {
                         System.out.println("\n//Using Client "+RevisionNumber);
-                        cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
+
+
                     }
                 } else {
                     if (tempCachedClient.exists()) {
@@ -84,6 +86,7 @@ public class Updater {
                 if (cachedClient.exists()) { //Only continue if the final client exists
                     HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
                     Deob deob = new Deob(ClassMap);
+                    deob.run();
                     System.exit(1);
                     System.out.println(" ");
                     System.out.println("{*");

@@ -1,6 +1,7 @@
 package com.srlupdater.deob;
 
-import com.srlupdater.deob.RedundantMethod.RedundantMethod;
+import com.srlupdater.deob.Generic.DumpJar;
+import com.srlupdater.deob.RedundantMethod.MethodRemoval;
 import org.objectweb.asm.tree.*;
 
 
@@ -16,7 +17,15 @@ public class Deob {
 
     public Deob(HashMap<String,ClassNode> classes){
         this.classes=classes;
-        //classes = new RedundantMethod(classes).refactor();
+
+    }
+
+    public HashMap<String, ClassNode> run(){
+        System.out.println("*Starting deob*");
+        classes = new MethodRemoval(classes).refactor();
+        new DumpJar(classes).createJar();
+        System.out.println("*Ending deob*");
+        return classes;
     }
 
 
