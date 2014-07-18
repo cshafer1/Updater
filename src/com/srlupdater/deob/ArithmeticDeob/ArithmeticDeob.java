@@ -23,13 +23,17 @@ public class ArithmeticDeob extends DeobFrame {
     }
     @Override
     public HashMap<String,ClassNode> refactor(){
-        HashMap<String,ClassNode> refactored = new HashMap<>();
-        Iterator it = classes.entrySet().iterator();
+        Integer LDCIMULGETSTATIC = 0;
         Boolean FoundLDC = false;
         Boolean FoundLDCthenIMUL = false;
         Boolean FoundLDCthenIMULthenGETSTATIC = false;
+        Integer GETSTATICIMULLDC = 0;
+        Boolean FoundGETSTATIC = false;
+        Boolean FoundGETSTATICthenIMUL = false;
         AbstractInsnNode insn1 = null;
         AbstractInsnNode insn3 = null;
+        System.out.println("*   Starting Arithmetic Deob*");
+        Iterator it = classes.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pairs = (Map.Entry)it.next();
             ClassNode node = (ClassNode)pairs.getValue();
@@ -43,32 +47,54 @@ public class ArithmeticDeob extends DeobFrame {
                     AbstractInsnNode insn = it2.next();
                     if (FoundLDCthenIMUL) {
                         if (insn.getOpcode() == Opcodes.GETSTATIC) {
-                            FoundLDCthenIMULthenGETSTATIC = true; // Stage 3
+                            FoundLDCthenIMULthenGETSTATIC = true; // LDC IMUL GETSTATIC
                             insn3 = insn;
                         }
                         FoundLDCthenIMUL = false;
+                        FoundLDC = false;
                     }
                     if (FoundLDC) {
                         if (insn.getOpcode() == Opcodes.IMUL) {
-                            FoundLDCthenIMUL = true; // Stage 2
+                            FoundLDCthenIMUL = true; // LDC IMUL
                         }
                         FoundLDC = false;
                     }
                     if (insn.getOpcode() == Opcodes.LDC) {
-                        FoundLDC = true; // Stage 1
+                        FoundLDC = true; // LDC
                         insn1 = insn;
+                    }
+                    if (FoundGETSTATICthenIMUL) {
+                        if (insn.getOpcode() == Opcodes.LDC) {
+                            GETSTATICIMULLDC++; // Count GETSTATIC IMUL LDC
+                        }
+                        FoundGETSTATICthenIMUL = false;
+                        FoundGETSTATIC = false;
+                    }
+                    if (FoundGETSTATIC) {
+                        if (insn.getOpcode() == Opcodes.IMUL) {
+                            FoundGETSTATICthenIMUL = true; // GETSTATIC IMUL
+                        }
+                        FoundGETSTATIC = false;
+                    }
+                    if (insn.getOpcode() == Opcodes.GETSTATIC) {
+                        FoundGETSTATIC = true; // GETSTATIC
                     }
                     if (FoundLDCthenIMULthenGETSTATIC) {
                         AbstractInsnNode insn2 = insn3; // This is here as a buffer
                         mn.instructions.set(insn3, insn1); // LDC on the right
                         mn.instructions.set(insn1, insn2); // GETSTATIC on the left
                         FoundLDCthenIMULthenGETSTATIC = false;
+                        LDCIMULGETSTATIC++;
                     }
                 }
                 newnode.methods.add(mn); // Add the modified methodnode to the new node
             }
-            refactored.put(newnode.name, newnode); // Put the new node into refactored
+            String name = (String)pairs.getKey();
+            classes.remove(node); // Remove the old node
+            classes.put(name, newnode); // Put the new node into classes
         }
-        return refactored;
+        System.out.println("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*");
+        System.out.println("*   Arithmetic Deob Finished*");
+        return classes;
     }
 }

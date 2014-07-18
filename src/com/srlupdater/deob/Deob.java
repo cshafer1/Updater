@@ -1,9 +1,9 @@
 package com.srlupdater.deob;
 
+import com.srlupdater.deob.ArithmeticDeob.ArithmeticDeob;
 import com.srlupdater.deob.Generic.DumpJar;
 import com.srlupdater.deob.RedundantMethod.MethodRemoval;
-import org.objectweb.asm.tree.*;
-
+import org.objectweb.asm.tree.ClassNode;
 
 import java.util.HashMap;
 
@@ -23,6 +23,7 @@ public class Deob {
     public HashMap<String, ClassNode> run(){
         System.out.println("*Starting deob*");
         classes = new MethodRemoval(classes).refactor();
+        classes = new ArithmeticDeob(classes).refactor();
         new DumpJar(classes).createJar();
         System.out.println("*Ending deob*");
         return classes;
