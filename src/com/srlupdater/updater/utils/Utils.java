@@ -1,5 +1,6 @@
 package com.srlupdater.updater.utils;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -11,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageProducer;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.FileChannel;
@@ -84,6 +86,21 @@ public final class Utils{
 
     public static int random(int min, int max) {
         return random.nextInt(Math.abs(max - min)) + min;
+    }
+
+
+    public static String opcodeToString(int opc) {
+        Field[] declaredFields = Opcodes.class.getDeclaredFields();
+        for (Field field : declaredFields) {
+            field.setAccessible(true);
+
+            try {
+                if (field.getInt(Opcodes.class.getClass()) == opc) {
+                    return field.getName();
+                }
+            } catch (Exception e) {}
+        }
+        return "";
     }
 
     /**
