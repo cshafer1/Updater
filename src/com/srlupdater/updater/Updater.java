@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class Updater {
 
-    public Integer CustomRevison = 0; //This must be left at 0 when not in use.
+    public Integer CustomRevison = 54; //This must be left at 0 when not in use.
 
     public Updater(){
         try {

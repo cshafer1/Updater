@@ -32,13 +32,12 @@ public class ArithmeticDeob extends DeobFrame {
         Boolean FoundGETSTATICthenIMUL = false;
         AbstractInsnNode insn1 = null;
         AbstractInsnNode insn3 = null;
+        HashMap<String,ClassNode> refactored = new HashMap<>();
         System.out.println("*   Starting Arithmetic Deob*");
         Iterator it = classes.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pairs = (Map.Entry)it.next();
             ClassNode node = (ClassNode)pairs.getValue();
-            ClassNode newnode = node;
-            newnode.methods.clear();
             ListIterator<MethodNode> mnIt = node.methods.listIterator();
             while (mnIt.hasNext()) {
                 MethodNode mn = mnIt.next();
@@ -87,14 +86,13 @@ public class ArithmeticDeob extends DeobFrame {
                         LDCIMULGETSTATIC++;
                     }
                 }
-                newnode.methods.add(mn); // Add the modified methodnode to the new node
+                //newnode.methods.add(mn2); // Add the modified methodnode to the new node
             }
             String name = (String)pairs.getKey();
-            classes.remove(node); // Remove the old node
-            classes.put(name, newnode); // Put the new node into classes
+            refactored.put(name, node); // Put the new node into classes
         }
         System.out.println("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*");
         System.out.println("*   Arithmetic Deob Finished*");
-        return classes;
+        return refactored;
     }
 }
