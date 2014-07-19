@@ -4,9 +4,11 @@ import com.srlupdater.updater.utils.Configs;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
@@ -61,6 +63,7 @@ public class DumpJar {
         }catch(Exception e){
             e.printStackTrace();
         }
-        System.out.println("*   Finished jar.  Location: "+ Configs.HOME+"output.jar");
+        System.out.println("*   Finished Jar*");
+        System.out.println("*   Location: "+ Configs.HOME+"output.jar*");
     }
 }

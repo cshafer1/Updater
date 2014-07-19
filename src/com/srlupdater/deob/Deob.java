@@ -21,11 +21,11 @@ public class Deob {
     }
 
     public HashMap<String, ClassNode> run(){
-        System.out.println("*Starting deob*");
+        System.out.println("{*Starting Deob*");
         classes = new MethodRemoval(classes).refactor();
         classes = new ArithmeticDeob(classes).refactor();
         new DumpJar(classes).createJar();
-        System.out.println("*Ending deob*");
+        System.out.println("*Ending Deob*}");
         return classes;
     }
 

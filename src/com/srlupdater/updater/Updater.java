@@ -52,7 +52,7 @@ public class Updater {
                     tempCachedClient = new File(Configs.HOME, "client"+CustomRevison+".jar");
                 }
                 if ((!tempCachedClient.exists()) && (CustomRevison < 1)) {
-                    System.out.println("\n//Downloading Initial Client");
+                    System.out.println("\n{Downloading Initial Client}");
                     Utils.downloadFile(jarLink, tempCachedClient);
                 }
                 File cachedClient = null;
@@ -61,20 +61,20 @@ public class Updater {
                     Integer RevisionNumber = JarUtils.getRevision(tempClassMap.get("client"));
                     cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                     if (tempCachedClient.exists() && !cachedClient.exists()) {
-                        System.out.println("\n//Using Client "+RevisionNumber);
+                        System.out.println("\n{Using Client "+RevisionNumber+"}");
                         cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                         Utils.copyFileUsingFileChannels(tempCachedClient, cachedClient); //Create Revision-Stamped client
                     } else if (JarUtils.isUpdated(tempClassMap.get("client"), jarLink)) {
-                        System.out.println("\n//Downloading Client "+ ++RevisionNumber);
+                        System.out.println("\n{Downloading Client "+ ++RevisionNumber+"}");
                         cachedClient = new File(Configs.HOME, "client"+RevisionNumber+".jar");
                         Utils.downloadFile(jarLink, cachedClient);
                         Utils.copyFileUsingFileChannels(cachedClient, tempCachedClient); //Update client.jar for the initial revision check
                     } else {
-                        System.out.println("\n//Using Client "+RevisionNumber);
+                        System.out.println("\n{Using Client "+RevisionNumber+"}");
                     }
                 } else {
                     if (tempCachedClient.exists()) {
-                        System.out.println("\n//Using Client "+CustomRevison);
+                        System.out.println("\n{Using Client "+CustomRevison+"}");
                         cachedClient = new File(Configs.HOME, "client"+CustomRevison+".jar");
                     } else {
                         System.out.println(" Couldn't find client"+CustomRevison+".jar in directory AppData/Roaming/SRLUpdater/");
