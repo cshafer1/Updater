@@ -90,7 +90,17 @@ public final class Utils{
 
 
     public static String opcodeToString(int opc) {
-        return Printer.OPCODES[opc];
+                Field[] declaredFields = Opcodes.class.getDeclaredFields();
+                for (Field field : declaredFields) {
+                        field.setAccessible(true);
+
+                                try {
+                                if (field.getInt(Opcodes.class.getClass()) == opc) {
+                                        return field.getName();
+                                    }
+                            } catch (Exception e) {}
+                    }
+                return "";
     }
 
     /**
