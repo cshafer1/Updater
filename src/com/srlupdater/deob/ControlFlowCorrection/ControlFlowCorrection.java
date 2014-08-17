@@ -167,7 +167,7 @@ public class ControlFlowCorrection extends DeobFrame {
                 for (int i = 0; i < rBlocks.size(); i++) {
                     pBlocks.remove(rBlocks.get(i));
                 }
-                removed = rBlocks.size();
+                removed = removed + rBlocks.size();
                             /* ORDER BLOCKS */
                 if (pBlocks.size() > 0) {
                     Graph g = new Graph();
