@@ -193,7 +193,7 @@ public class ControlFlowCorrection extends DeobFrame {
                                     if (i < method.instructions.size()) { //edit if there is a current insn
                                         method.instructions.toArray()[i] = insn;
                                     } else {
-                                        method.instructions.insert(insn); //add instructions if we exceed the array size
+                                        method.instructions.add(insn); //add instructions if we exceed the array size
                                     }
                                     i = i + 1;
                                 }
@@ -218,8 +218,8 @@ public class ControlFlowCorrection extends DeobFrame {
                // System.out.println(" ");
             }
         } //
-        System.out.println("*      "+Integer.toString(ordered)+"/"+Integer.toString(ordered+removed)+" blocks ordered*");
-        System.out.println("*      "+Integer.toString(removed)+"/"+Integer.toString(ordered+removed)+" blocks removed*");
+        System.out.println("*      "+Integer.toString(ordered)+" methods constructed*");
+        System.out.println("*      "+Integer.toString(removed)+" methods removed*");
         System.out.println("*   Control Flow Correction Finished*");
         return classes;
     }
