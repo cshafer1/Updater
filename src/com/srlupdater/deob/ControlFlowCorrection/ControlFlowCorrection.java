@@ -219,7 +219,7 @@ public class ControlFlowCorrection extends DeobFrame {
             }
         } //
         System.out.println("*      "+Integer.toString(ordered)+" methods constructed*");
-        System.out.println("*      "+Integer.toString(removed)+" methods removed*");
+        System.out.println("*      "+Integer.toString(removed)+" methods refactored*");
         System.out.println("*   Control Flow Correction Finished*");
         return classes;
     }
