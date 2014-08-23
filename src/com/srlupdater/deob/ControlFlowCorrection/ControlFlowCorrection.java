@@ -191,7 +191,8 @@ public class ControlFlowCorrection extends DeobFrame {
                                 while (dit.hasNext()) {
                                     AbstractInsnNode insn = (AbstractInsnNode) dit.next();
                                     if (i < method.instructions.size()) { //edit if there is a current insn
-                                        method.instructions.toArray()[i] = insn;
+                                        if (!insn.equals(null))
+                                            method.instructions.set(method.instructions.get(i), insn);
                                     } else {
                                         method.instructions.add(insn); //add instructions if we exceed the array size
                                     }
@@ -202,9 +203,10 @@ public class ControlFlowCorrection extends DeobFrame {
                             e = e + 1;
                         }
                     }
-                    //while (i < method.instructions.size()) { //remove any extra instructions if we shortened the array
-                    //    method.instructions.remove(method.instructions.toArray()[i]);
-                    //}
+                   // while (i < method.instructions.size()) { //remove any extra instructions if we shortened the array
+                    //    //if (!method.instructions.toArray()[i].equals(null))
+                    //      method.instructions.remove(method.instructions.get(i));
+                   // }
                     //method.instructions.resetLabels();
                 }
                             /* PRINT BLOCKS */
@@ -219,7 +221,7 @@ public class ControlFlowCorrection extends DeobFrame {
             }
         } //
         System.out.println("*      "+Integer.toString(ordered)+" methods constructed*");
-        System.out.println("*      "+Integer.toString(removed)+" methods refactored*");
+        System.out.println("*      "+Integer.toString(ordered+removed)+" methods refactored*");
         System.out.println("*   Control Flow Correction Finished*");
         return classes;
     }

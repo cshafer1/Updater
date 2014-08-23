@@ -1,11 +1,11 @@
 package com.srlupdater.updater;
 
 import com.srlupdater.deob.Deob;
+import com.srlupdater.updater.injection.generic.Hook;
 import com.srlupdater.updater.utils.Configs;
 import com.srlupdater.updater.utils.JarUtils;
 import com.srlupdater.updater.utils.Utils;
 import org.objectweb.asm.tree.ClassNode;
-
 
 import javax.swing.*;
 import java.io.File;
@@ -15,11 +15,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
- * Author : NKN & JJ & Krazy Meerkat
+ * Developers : NKN & Krazy Meerkat
+ * Contributors: Frement, JJ & 200_success
  */
 public class Updater {
 
     public Integer CustomRevison = 54; //This must be left at 0 when not in use.
+    private final HashMap<String, Hook> Hooks = new HashMap<>();
 
     public Updater(){
         try {

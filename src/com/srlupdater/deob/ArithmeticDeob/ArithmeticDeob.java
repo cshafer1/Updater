@@ -29,7 +29,7 @@ public class ArithmeticDeob extends DeobFrame {
                         int i = 0;
                         while (i < mn.instructions.size()) {
                             if (!wrap.insnArray.get(i).equals(null))
-                                mn.instructions.toArray()[i] = wrap.insnArray.get(i);
+                                mn.instructions.set(mn.instructions.get(i), wrap.insnArray.get(i));
                             i++;
                         }
                     }
