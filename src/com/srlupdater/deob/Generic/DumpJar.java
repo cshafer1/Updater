@@ -31,7 +31,6 @@ public class DumpJar {
             JarEntry entry = new JarEntry(path.replace("\\", "/"));
             target.putNextEntry(entry);
             in = new BufferedInputStream(new ByteArrayInputStream(info));
-
             byte[] buffer = new byte[1024];
             while (true)
             {
@@ -41,6 +40,9 @@ public class DumpJar {
                 target.write(buffer, 0, count);
             }
             target.closeEntry();
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         finally
         {
