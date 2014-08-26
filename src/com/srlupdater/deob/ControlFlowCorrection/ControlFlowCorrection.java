@@ -70,6 +70,7 @@ public class ControlFlowCorrection extends DeobFrame {
     public HashMap<String,ClassNode> refactor(){
         int ordered = 0;
         int removed = 0;
+        int indiv = 0;
         System.out.println("*   Starting Control Flow Correction*");
         for(ClassNode node : classes.values()){
             for (MethodNode method : (Iterable<MethodNode>) node.methods) {
@@ -179,30 +180,25 @@ public class ControlFlowCorrection extends DeobFrame {
                     Iterator<String> blockIt = null;
                     blockIt = new PreOrderDFSIterator(g, Integer.toString(pBlocks.get(0).index)); //DFS
                     int i = 0;
-                    int e = 0;
+                    //int e = 0;
                     int blockNumber = 0;
                     while (blockIt.hasNext()) {
                         blockNumber = Integer.valueOf(blockIt.next()); //new block order from the DFS
-                        Iterator cit = blocks.iterator();
-                        while (cit.hasNext()) {
-                            ArrayList<AbstractInsnNode> block = (ArrayList<AbstractInsnNode>) cit.next();
-                            if (blockNumber == e) { //edit the next block's instructions into our methodNode
-                                Iterator dit = block.iterator();
-                                while (dit.hasNext()) {
-                                    AbstractInsnNode insn = (AbstractInsnNode) dit.next();
-                                    if (i < method.instructions.size()) { //edit if there is a current insn
-                                        if (!insn.equals(null))
-                                            method.instructions.set(method.instructions.get(i), insn);
-                                    } else {
-                                        method.instructions.add(insn); //add instructions if we exceed the array size
-                                    }
-                                    i = i + 1;
-                                }
-                                ordered = ordered + 1;
+                        ArrayList<AbstractInsnNode> block = blocks.get(blockNumber-1); //edit the next block's instructions into our methodNode
+                        Iterator dit = block.iterator();
+                        while (dit.hasNext()) {
+                            AbstractInsnNode insn = (AbstractInsnNode) dit.next();
+                            if (i < method.instructions.size()) { //edit if there is a current insn
+                                if (!insn.equals(null))
+                                    method.instructions.set(method.instructions.get(i), insn);
+                            } else {
+                                method.instructions.add(insn); //add instructions if we exceed the array size
                             }
-                            e = e + 1;
+                            i = i + 1;
                         }
+                        indiv = indiv + 1;
                     }
+                    ordered = ordered + 1;
                    // while (i < method.instructions.size()) { //remove any extra instructions if we shortened the array
                     //    //if (!method.instructions.toArray()[i].equals(null))
                     //      method.instructions.remove(method.instructions.get(i));
@@ -221,7 +217,7 @@ public class ControlFlowCorrection extends DeobFrame {
             }
         } //
         System.out.println("*      "+Integer.toString(ordered)+" methods constructed*");
-        System.out.println("*      "+Integer.toString(ordered+removed)+" methods refactored*");
+        System.out.println("*      "+Integer.toString(indiv+removed)+" functions refactored*");
         System.out.println("*   Control Flow Correction Finished*");
         return classes;
     }

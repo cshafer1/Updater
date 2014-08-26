@@ -26,8 +26,9 @@ import java.util.regex.Pattern;
  */
 public class Updater {
 
-    private Integer CustomRevison = 57; //This must be left at 0 when not in use.
-    private boolean useOutput = true; //Used to quickly debug.
+    private Integer CustomRevison = 54; //This must be left at 0 when not in use.
+    private boolean useOutput = false; //Used to quickly debug.
+    public static boolean dumpClasses = false; //Control Flow Deob won't be used when dumping .Jar
     private ArrayList<Hook> hooks = new ArrayList<>();
     private Hook analyzerHook;
     public Updater(){
