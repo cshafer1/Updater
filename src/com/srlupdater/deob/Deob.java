@@ -1,5 +1,6 @@
 package com.srlupdater.deob;
 
+import com.srlupdater.deob.ArithmeticDeob.ArithmeticDeob;
 import com.srlupdater.deob.ControlFlowCorrection.ControlFlowCorrection;
 import com.srlupdater.deob.Generic.DumpJar;
 import com.srlupdater.deob.RedundantMethod.MethodRemoval;
@@ -24,9 +25,10 @@ public class Deob {
     public HashMap<String, ClassNode> run(){
         System.out.println("{*Starting Deob*");
         classes = new MethodRemoval(classes).refactor();
-        if (!Updater.dumpClasses)
+        if (!Updater.dumpClasses) {
             classes = new ControlFlowCorrection(classes).refactor();
-        //classes = new ArithmeticDeob(classes).refactor();
+        } else
+            classes = new ArithmeticDeob(classes).refactor();
         if (Updater.dumpClasses)
             new DumpJar(classes).createJar();
         System.out.println("*Ending Deob*}");
