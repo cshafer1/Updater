@@ -27,12 +27,18 @@ import java.util.regex.Pattern;
 public class Updater {
 
     private Integer CustomRevison = 54; //This must be left at 0 when not in use.
-    private boolean useOutput = false; //Used to quickly debug.
-    public static boolean dumpClasses = false; //Control Flow Deob won't be used when dumping .Jar
+    public static boolean useOutput = true; //Used output.jar
+    public static boolean dumpClasses = false; //Arithmetic deob will only be used when true, control flow will only be used when false
     private ArrayList<Hook> hooks = new ArrayList<>();
     private Hook analyzerHook;
     public Updater(){
         try {
+            System.out.println("{*");
+            System.out.println("**  SRL's Un-Named Updater");
+            System.out.println("**   Developers : NKN & Krazy Meerkat");
+            System.out.println("**    Contributors: Frement, JJ & 200_success");
+            System.out.println("*}");
+            System.out.println(" ");
             File cachedClient = null;
             if(!useOutput) {
                 String rsLink = "http://oldschool11.runescape.com/";
@@ -98,37 +104,32 @@ public class Updater {
             }
             else
                 cachedClient = new File(Configs.HOME, "output.jar");
-            System.out.println(cachedClient.exists());
             if (cachedClient.exists()) { //Only continue if the final client exists
                 HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
-                if(!useOutput) {
+                //if(!useOutput) {
                     Deob deob = new Deob(ClassMap);
                     ClassMap = deob.run();
+                //}
+                System.out.println(" ");
+                System.out.println("const");
+                if (CustomRevison > 0) {
+                    System.out.println("  ReflectionRevision = '" + CustomRevison + "';");
+                } else {
+                    System.out.println("  ReflectionRevision = '" + JarUtils.getRevision(ClassMap.get("client")) + "';");
                 }
-                System.out.println(" ");
-                System.out.println("{*");
-                System.out.println("**  SRL's Un-Named Updater");
-                System.out.println("**    Developed by");
-                System.out.println("**      NKN, JJ and Krazy_Meerkat");
-                System.out.println("*}");
-                System.out.println(" ");
                 runAnalyzers(ClassMap);
+                System.out.println(" ");
                 for(Hook hook:hooks){
-                    System.out.println("Class Hook: "+hook.getClassName() + "  " + hook.getClassLocation());
+                    System.out.println("  " + hook.getClassName() + " = '" + hook.getClassLocation() + "';");
                     HashMap<String, FieldHook> hooks = hook.getFieldHooks();
 
                     for(Map.Entry<String, FieldHook> entry : hooks.entrySet()){
                         FieldHook fHook = entry.getValue();
-                        System.out.println("   Field Hook: " +fHook.getLocation() + "  " + fHook.getName() + "  " + fHook.getReturn() + "   " + fHook.getMultiplier());
+                        System.out.println("    " +fHook.getName() + " = '" + fHook.getLocation() + "';");
+                        if ((fHook.getMultiplier() > 1) || (fHook.getMultiplier() < -1))
+                            System.out.println("    " +fHook.getName() + "_Multiplier = " + fHook.getMultiplier() + ";");
                     }
                 }
-                System.out.println("const");
-                if (CustomRevison > 0) {
-                    System.out.println(" ReflectionRevision = '" + CustomRevison + "';");
-                } else {
-                    System.out.println(" ReflectionRevision = '" + JarUtils.getRevision(ClassMap.get("client")) + "';");
-                }
-                System.out.println(" ");
             }
         } catch (Exception e) {
             System.out.println("Error constructing client");
@@ -137,14 +138,10 @@ public class Updater {
         }
     }
     private void runAnalyzers(HashMap<String, ClassNode> classMap){
-        System.out.println("\nAnalyzing has started!");
-
 
         ArrayList<AbstractAnalyzer> analyzers = new ArrayList<>();
 
-
         analyzers.add(new NodeAnalyzer());
-
 
         Collection<ClassNode> classNodes = classMap.values();
         for(AbstractAnalyzer analyzer : analyzers){

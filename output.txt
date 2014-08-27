@@ -1,0 +1,6 @@
+*   Starting Method Removal*
+*      2457/4158 methods removed*
+*   Method Removal Finished*
+*   Starting Arithmetic Deob*
+*      150/212 expressions modified*
+*   Arithmetic Deob Finished*

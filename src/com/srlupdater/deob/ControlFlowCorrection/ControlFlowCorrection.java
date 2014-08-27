@@ -199,30 +199,16 @@ public class ControlFlowCorrection extends DeobFrame {
                         indiv = indiv + 1;
                     }
                     ordered = ordered + 1;
-                    /*
+
                     if (i > 0) {
-                        InsnList TinsnList = new InsnList();
-                        Iterator<AbstractInsnNode> it2 = method.instructions.iterator();
-                        int f = 0;
-                        while ((it2.hasNext()) && (i < method.instructions.size())) {
-                            AbstractInsnNode Tinsn = it2.next();
-                            if ((f == i) && (i < method.instructions.size())) {
-                                TinsnList.add(Tinsn);
-                                i++;
-                                //System.out.println("adding");
-                            }
-                            f++;
-                            //System.out.println("it2 next ");
-                        }
-                        if (TinsnList.size() > 0)
-                        for (int j = 0; j < TinsnList.size(); j++) {
-                            System.out.println("removing ");
-                            if (j < i)
-                                method.instructions.remove(TinsnList.get(j));
+                        for (int j = i; j < method.instructions.size(); j++) {
+                       //     System.out.println("removing ");
+                            //if (j < i)
+                                method.instructions.set(method.instructions.get(j), (AbstractInsnNode) new InsnNode(Opcodes.ACONST_NULL));
                         }
                     }
-                     System.out.println("done 1 ");
-                     */
+                     //System.out.println("done 1 ");
+
                     //method.instructions.resetLabels();
                 }
                             /* PRINT BLOCKS */
@@ -237,7 +223,7 @@ public class ControlFlowCorrection extends DeobFrame {
             }
         } //
         System.out.println("*      "+Integer.toString(ordered)+" methods constructed*");
-        System.out.println("*      "+Integer.toString(indiv+removed)+" functions refactored*");
+        System.out.println("*      "+Integer.toString(indiv+removed)+" blocks refactored*");
         System.out.println("*   Control Flow Correction Finished*");
         return classes;
     }

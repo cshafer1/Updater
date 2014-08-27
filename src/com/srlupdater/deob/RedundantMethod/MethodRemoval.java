@@ -1,14 +1,13 @@
 package com.srlupdater.deob.RedundantMethod;
 
 
+import com.srlupdater.deob.Deob;
 import com.srlupdater.deob.Generic.DeobFrame;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
-
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
-
 
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -24,6 +23,7 @@ public class MethodRemoval extends DeobFrame {
     }
     @Override
     public HashMap<String,ClassNode> refactor(){
+        Deob.deobOutput.add("*   Starting Method Removal*"+System.getProperty("line.separator"));
         System.out.println("*   Starting Method Removal*");
         List<MethodWrapper>remove = getRedundantMethods();
         List<MethodNode> toRemove = new ArrayList<>();
@@ -42,6 +42,7 @@ public class MethodRemoval extends DeobFrame {
 
 
 
+        Deob.deobOutput.add("*   Method Removal Finished*"+System.getProperty("line.separator"));
         System.out.println("*   Method Removal Finished*");
         return classes;
     }
@@ -161,6 +162,7 @@ public class MethodRemoval extends DeobFrame {
                 toRemove.add(wrap);
             }
         }
+        Deob.deobOutput.add("*      "+Integer.toString(toRemove.size())+"/"+Integer.toString(all.size())+" methods removed*"+System.getProperty("line.separator"));
         System.out.println("*      "+Integer.toString(toRemove.size())+"/"+Integer.toString(all.size())+" methods removed*");
         return toRemove;
     }

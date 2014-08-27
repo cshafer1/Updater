@@ -7,7 +7,15 @@ import com.srlupdater.deob.RedundantMethod.MethodRemoval;
 import com.srlupdater.updater.Updater;
 import org.objectweb.asm.tree.ClassNode;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /*
@@ -22,15 +30,58 @@ public class Deob {
 
     }
 
+    public static List<String> deobOutput = new ArrayList<String>();
+    public BufferedWriter writer = null;
     public HashMap<String, ClassNode> run(){
         System.out.println("{*Starting Deob*");
-        classes = new MethodRemoval(classes).refactor();
+        if (!Updater.useOutput) {
+            classes = new MethodRemoval(classes).refactor();
+        } else {
+            try {
+                List<String> lines = Files.readAllLines(Paths.get("output.txt"), Charset.defaultCharset());
+                int i = 0;
+                while (i < lines.size()) {
+                    System.out.println((String)lines.get(i));
+                    i++;
+                }
+            }
+            catch ( IOException e)
+            {
+            }
+            finally
+            {
+            }
+        }
         if (!Updater.dumpClasses) {
             classes = new ControlFlowCorrection(classes).refactor();
-        } else
+        } else {
             classes = new ArithmeticDeob(classes).refactor();
-        if (Updater.dumpClasses)
             new DumpJar(classes).createJar();
+        }
+        if (!Updater.useOutput) {
+            try {
+                writer = new BufferedWriter( new FileWriter("output.txt"));
+                int i = 0;
+                while (i < deobOutput.size()) {
+                    writer.write((String)deobOutput.get(i)); //store deob debug in output.txt for when useOutput = true
+                    i++;
+                }
+            }
+            catch ( IOException e)
+            {
+            }
+            finally
+            {
+                try
+                {
+                    if ( writer != null)
+                        writer.close();
+                }
+                catch ( IOException e)
+                {
+                }
+            }
+        }
         System.out.println("*Ending Deob*}");
         return classes;
     }
