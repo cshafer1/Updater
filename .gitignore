@@ -190,3 +190,4 @@ out/production/Updater/com/srlnkn/updater/utils/JarUtils.class
 out/production/Updater/com/srlnkn/updater/utils/Utils.class
 .idea/uiDesigner.xml
 *.class
+output.txt
