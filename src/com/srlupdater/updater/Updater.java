@@ -107,8 +107,8 @@ public class Updater {
             if (cachedClient.exists()) { //Only continue if the final client exists
                 HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
                 //if(!useOutput) {
-                    Deob deob = new Deob(ClassMap);
-                    ClassMap = deob.run();
+                Deob deob = new Deob(ClassMap);
+                ClassMap = deob.run();
                 //}
                 System.out.println(" ");
                 System.out.println("const");

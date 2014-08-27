@@ -121,37 +121,37 @@ public class ControlFlowCorrection extends DeobFrame {
                         int target = findJumpTargetBlock(blocks, block);
                         if (type == "(immediate)") {
                             pBlocks.add(new Block(blocks.indexOf(block) + 1, target, ""));
-                        //    System.out.println((blocks.indexOf(block) + 1) + " -> " + target);
+                            //    System.out.println((blocks.indexOf(block) + 1) + " -> " + target);
                         }
                         if (type == "(immediate)") {
                             pBlocks.add(new Block(blocks.indexOf(block) + 1, blocks.indexOf(block) + 2, type));
-                        //    System.out.println((blocks.indexOf(block) + 1) + " -> " + (blocks.indexOf(block) + 2) + " " + type);
+                            //    System.out.println((blocks.indexOf(block) + 1) + " -> " + (blocks.indexOf(block) + 2) + " " + type);
                         } else {
                             pBlocks.add(new Block(blocks.indexOf(block) + 1, target, type));
-                        //    System.out.println((blocks.indexOf(block) + 1) + " -> " + target + " " + type);
+                            //    System.out.println((blocks.indexOf(block) + 1) + " -> " + target + " " + type);
                         }
                     } else {
                         pBlocks.add(new Block(blocks.indexOf(block) + 1, -1, type));
-                    //    System.out.println((blocks.indexOf(block) + 1) + " " + type);
+                        //    System.out.println((blocks.indexOf(block) + 1) + " " + type);
                     }
                     Iterator cit = block.iterator();
                     while (cit.hasNext()) {
                         AbstractInsnNode insn = (AbstractInsnNode) cit.next();
                         String pos = (method.instructions.indexOf(insn) + 1) + ": ";
                         if (insn.getType() == AbstractInsnNode.LDC_INSN) {
-                        //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + ((LdcInsnNode) insn).cst.toString());
+                            //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + ((LdcInsnNode) insn).cst.toString());
                         } else if (insn.getOpcode() == Opcodes.GETFIELD) {
-                        //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + ((FieldInsnNode) insn).name);
+                            //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + ((FieldInsnNode) insn).name);
                         } else if (insn.getOpcode() == Opcodes.GETSTATIC) {
-                        //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + ((FieldInsnNode) insn).owner + "." + ((FieldInsnNode) insn).name);
+                            //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + ((FieldInsnNode) insn).owner + "." + ((FieldInsnNode) insn).name);
                         } else if (insn.getType() == AbstractInsnNode.JUMP_INSN) {
                             JumpInsnNode jin = (JumpInsnNode) insn;
-                        //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + method.instructions.indexOf(jin.label) + " (" + findJumpBlock(blocks, jin.label) + ")");
+                            //    System.out.println(pos + opcodeToString(insn.getOpcode()) + " " + method.instructions.indexOf(jin.label) + " (" + findJumpBlock(blocks, jin.label) + ")");
                         } else {
-                        //    System.out.println(pos + opcodeToString(insn.getOpcode()));
+                            //    System.out.println(pos + opcodeToString(insn.getOpcode()));
                         }
                     }
-                   // System.out.println("");
+                    // System.out.println("");
                 }
                             /* REMOVE EMPTY BLOCKS */
                 ArrayList<Block> rBlocks = new ArrayList<Block>();
@@ -202,24 +202,24 @@ public class ControlFlowCorrection extends DeobFrame {
 
                     if (i > 0) {
                         for (int j = i; j < method.instructions.size(); j++) {
-                       //     System.out.println("removing ");
+                            //     System.out.println("removing ");
                             //if (j < i)
-                                method.instructions.set(method.instructions.get(j), (AbstractInsnNode) new InsnNode(Opcodes.ACONST_NULL));
+                            method.instructions.set(method.instructions.get(j), (AbstractInsnNode) new InsnNode(Opcodes.ACONST_NULL));
                         }
                     }
-                     //System.out.println("done 1 ");
+                    //System.out.println("done 1 ");
 
                     //method.instructions.resetLabels();
                 }
                             /* PRINT BLOCKS */
                 for (int i = 0; i < pBlocks.size(); i++) {
                     if (pBlocks.get(i).target != -1) {
-                    //    System.out.println(pBlocks.get(i).index + " -> " + pBlocks.get(i).target + " " + pBlocks.get(i).type);
+                        //    System.out.println(pBlocks.get(i).index + " -> " + pBlocks.get(i).target + " " + pBlocks.get(i).type);
                     } else {
-                    //    System.out.println(pBlocks.get(i).index + " " + pBlocks.get(i).type);
+                        //    System.out.println(pBlocks.get(i).index + " " + pBlocks.get(i).type);
                     }
                 }
-               // System.out.println(" ");
+                // System.out.println(" ");
             }
         } //
         System.out.println("*      "+Integer.toString(ordered)+" methods constructed*");
