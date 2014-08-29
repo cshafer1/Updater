@@ -29,7 +29,7 @@ public class Updater {
     private Integer CustomRevison = 54; //This must be left at 0 when not in use.
     public static boolean useOutput = true; //Used output.jar
     public static boolean dumpClasses = false; //Arithmetic deob will only be used when true, control flow will only be used when false
-    private ArrayList<Hook> hooks = new ArrayList<>();
+    public static ArrayList<Hook> hooks = new ArrayList<>();
     private Hook analyzerHook;
     public Updater(){
         try {

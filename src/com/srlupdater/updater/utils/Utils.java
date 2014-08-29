@@ -2,6 +2,7 @@ package com.srlupdater.updater.utils;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -127,6 +128,18 @@ public final class Utils{
             inputChannel.close();
             outputChannel.close();
         }
+    }
+
+
+    public static boolean isConstructorDescriptor(ClassNode classNode, String desc) {
+        ListIterator<MethodNode> mnli = classNode.methods.listIterator();
+        while (mnli.hasNext()) {
+            MethodNode mn = mnli.next();
+            if (mn.name.equals("<init>"))
+                if (mn.desc.contains(desc))
+                    return true;
+        }
+        return false;
     }
 
     /**

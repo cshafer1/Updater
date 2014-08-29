@@ -3,18 +3,18 @@ package com.srlupdater.updater.injection.generic;
 public class FieldHook {
     private final String fieldName;
     private final String fieldLocation;
-    private final String fieldReturn;
+    private final String fieldDesc;
     private long multiplier = -1;
 
-    public FieldHook(String fieldName, String fieldLocation, String fieldReturn ){
+    public FieldHook(String fieldName, String fieldLocation, String fieldDesc ){
         this.fieldName = fieldName;
         this.fieldLocation = fieldLocation;
-        this.fieldReturn = fieldReturn;
+        this.fieldDesc = fieldDesc;
     }
-    public FieldHook(String fieldName, String fieldLocation, String fieldReturn, long multiplier ){
+    public FieldHook(String fieldName, String fieldLocation, String fieldDesc, long multiplier ){
         this.fieldName = fieldName;
         this.fieldLocation = fieldLocation;
-        this.fieldReturn = fieldReturn;
+        this.fieldDesc = fieldDesc;
         this.multiplier = multiplier;
     }
 
@@ -27,7 +27,7 @@ public class FieldHook {
     }
 
     public String getReturn(){
-        return fieldReturn;
+        return fieldDesc;
     }
 
     public long getMultiplier(){

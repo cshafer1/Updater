@@ -16,12 +16,12 @@ public class Hook {
         this.classLocation = classLocation;
     }
 
-    public void addFieldHook(String fieldName, String fieldLocation, String fieldReturn){
-        fieldHooks.put(fieldName,new FieldHook(fieldName, fieldLocation, fieldReturn));
+    public void addFieldHook(String fieldName, String fieldLocation, String fieldDesc){
+        fieldHooks.put(fieldName,new FieldHook(fieldName, fieldLocation, fieldDesc));
     }
 
-    public void addFieldHook(String fieldName, String fieldLocation, String fieldReturn, long multiplier){
-        fieldHooks.put(fieldName, new FieldHook(fieldName, fieldLocation, fieldReturn, multiplier));
+    public void addFieldHook(String fieldName, String fieldLocation, String fieldDesc, long multiplier){
+        fieldHooks.put(fieldName, new FieldHook(fieldName, fieldLocation, fieldDesc, multiplier));
     }
 
     public HashMap<String, FieldHook> getFieldHooks(){
