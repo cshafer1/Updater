@@ -9,16 +9,10 @@ import org.objectweb.asm.tree.FieldNode;
 import java.util.ListIterator;
 
 public class CacheableNodeAnalyzer extends AbstractAnalyzer {
-    public String getTheFuckenValueOf(String ClassName) { //more iterating than desired
-        for(Hook hook:Updater.hooks){
-            if (hook.getClassName().equals(ClassName))
-                return hook.getClassLocation();
-        }
-        return "";
-    }
+
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(getTheFuckenValueOf("Node")))
+        if (!node.superName.equals(classNodes.get("Node").name))
             return false;
         int countSelf = 0;
         ListIterator<FieldNode> li = node.fields.listIterator();
@@ -37,6 +31,7 @@ public class CacheableNodeAnalyzer extends AbstractAnalyzer {
     @Override
     protected Hook analyse(ClassNode node) {
         hook = new Hook("CacheableNode",node.name);
+        classNodes.put("CacheableNode",node);
         return hook;
     }
 }

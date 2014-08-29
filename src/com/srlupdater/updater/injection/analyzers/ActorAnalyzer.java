@@ -7,27 +7,21 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 
 public class ActorAnalyzer extends AbstractAnalyzer {
-    public String getTheFuckenValueOf(String ClassName) { //more iterating than desired
-        for(Hook hook:Updater.hooks){
-            if (hook.getClassName().equals(ClassName))
-                return hook.getClassLocation();
-        }
-        return "";
-    }
+
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.equals(getTheFuckenValueOf("Renderable")))
+        if (!node.superName.equals(classNodes.get("Renderable").name))
             return false;
 
         if(node.access == (Opcodes.ACC_ABSTRACT + Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER))
             return true;
         return false;
     }
-    private Hook hook;
 
     @Override
     protected Hook analyse(ClassNode node) {
-        hook = new Hook("Actor",node.name);
+        Hook hook = new Hook("Actor",node.name);
+        classNodes.put("Actor",node);
         return hook;
     }
 }

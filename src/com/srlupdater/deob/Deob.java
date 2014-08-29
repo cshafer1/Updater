@@ -23,10 +23,12 @@ import java.util.List;
  */
 public class Deob {
     private HashMap<String, ClassNode> classes;
+    private boolean useOutput,dumpClasses;
 
-
-    public Deob(HashMap<String,ClassNode> classes){
+    public Deob(HashMap<String,ClassNode> classes, boolean useOutput, boolean dumpClasses){
         this.classes=classes;
+        this.useOutput = useOutput;
+        this.dumpClasses = dumpClasses;
 
     }
 
@@ -34,7 +36,7 @@ public class Deob {
     public BufferedWriter writer = null;
     public HashMap<String, ClassNode> run(){
         System.out.println("{*Starting Deob*");
-        if (!Updater.useOutput) {
+        if (useOutput) {
             classes = new MethodRemoval(classes).refactor();
         } else {
             try {
@@ -45,20 +47,17 @@ public class Deob {
                     i++;
                 }
             }
-            catch ( IOException e)
-            {
-            }
-            finally
-            {
+            catch ( IOException e) {
+                e.printStackTrace();
             }
         }
-        if (!Updater.dumpClasses) {
+        if (!dumpClasses) {
             classes = new ControlFlowCorrection(classes).refactor();
         } else {
             classes = new ArithmeticDeob(classes).refactor();
             new DumpJar(classes).createJar();
         }
-        if (!Updater.useOutput) {
+        if (useOutput) {
             try {
                 writer = new BufferedWriter( new FileWriter("output.txt"));
                 int i = 0;

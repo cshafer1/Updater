@@ -10,13 +10,7 @@ import org.objectweb.asm.tree.FieldNode;
 import java.util.ListIterator;
 
 public class LinkedListAnalyzer extends AbstractAnalyzer {
-    public String getTheFuckenValueOf(String ClassName) { //more iterating than desired
-        for(Hook hook:Updater.hooks){
-            if (hook.getClassName().equals(ClassName))
-                return hook.getClassLocation();
-        }
-        return "";
-    }
+
     @Override
     protected boolean canRun(ClassNode node) {
         int fieldCount = 0;
@@ -26,7 +20,7 @@ public class LinkedListAnalyzer extends AbstractAnalyzer {
             fieldCount++;
             FieldNode fn = fnIt.next();
             if (((fn.access & Opcodes.ACC_STATIC) == 0)) {
-                if (fn.desc.equals(String.format("L%s;", getTheFuckenValueOf("Node"))))
+                if (fn.desc.equals(String.format("L%s;", classNodes.get("Node").name)))
                     nodeCount++;
             }
         }
@@ -37,6 +31,7 @@ public class LinkedListAnalyzer extends AbstractAnalyzer {
     @Override
     protected Hook analyse(ClassNode node) {
         hook = new Hook("LinkedList",node.name);
+        classNodes.put("LinkedList",node);
         return hook;
     }
 }

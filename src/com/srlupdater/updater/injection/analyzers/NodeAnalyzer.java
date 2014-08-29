@@ -47,7 +47,7 @@ public class NodeAnalyzer extends AbstractAnalyzer {
     @Override
     protected Hook analyse(ClassNode node) {
         hook = new Hook("Node",node.name);
-        getPrevNext(node);
+        classNodes.put("Node",node);
         return hook;
     }
 }

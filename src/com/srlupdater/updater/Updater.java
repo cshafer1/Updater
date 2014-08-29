@@ -1,7 +1,7 @@
 package com.srlupdater.updater;
 
 import com.srlupdater.deob.Deob;
-import com.srlupdater.updater.injection.analyzers.NodeAnalyzer;
+import com.srlupdater.updater.injection.analyzers.*;
 import com.srlupdater.updater.injection.generic.AbstractAnalyzer;
 import com.srlupdater.updater.injection.generic.FieldHook;
 import com.srlupdater.updater.injection.generic.Hook;
@@ -27,9 +27,9 @@ import java.util.regex.Pattern;
 public class Updater {
 
     private Integer CustomRevison = 54; //This must be left at 0 when not in use.
-    public static boolean useOutput = true; //Used output.jar
-    public static boolean dumpClasses = false; //Arithmetic deob will only be used when true, control flow will only be used when false
-    public static ArrayList<Hook> hooks = new ArrayList<>();
+    private boolean useOutput = true; //Used output.jar
+    private boolean dumpClasses = false; //Arithmetic deob will only be used when true, control flow will only be used when false
+    private ArrayList<Hook> hooks = new ArrayList<>();
     private Hook analyzerHook;
     public Updater(){
         try {
@@ -106,10 +106,10 @@ public class Updater {
                 cachedClient = new File(Configs.HOME, "output.jar");
             if (cachedClient.exists()) { //Only continue if the final client exists
                 HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
-                //if(!useOutput) {
-                Deob deob = new Deob(ClassMap);
+                /*if(!useOutput) {
+                Deob deob = new Deob(ClassMap, false, false);
                 ClassMap = deob.run();
-                //}
+                }      */
                 System.out.println(" ");
                 System.out.println("const");
                 if (CustomRevison > 0) {
@@ -142,6 +142,14 @@ public class Updater {
         ArrayList<AbstractAnalyzer> analyzers = new ArrayList<>();
 
         analyzers.add(new NodeAnalyzer());
+        analyzers.add(new CacheableNodeAnalyzer());
+        analyzers.add(new RenderableAnalyzer());
+        analyzers.add(new ActorAnalyzer());
+        analyzers.add(new NodeHashTableAnalyzer());
+        analyzers.add(new LinkedListAnalyzer());
+        analyzers.add(new CacheableNodeQueueAnaylyzer());
+        analyzers.add(new NodeCacheAnalyzer());
+        analyzers.add(new StreamAnalyzer());
 
         Collection<ClassNode> classNodes = classMap.values();
         for(AbstractAnalyzer analyzer : analyzers){

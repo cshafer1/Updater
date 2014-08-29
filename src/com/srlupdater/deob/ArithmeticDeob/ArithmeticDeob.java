@@ -23,8 +23,8 @@ public class ArithmeticDeob extends DeobFrame {
     }
     @Override
     public HashMap<String,ClassNode> refactor(){
-        if (!Updater.useOutput)
-            Deob.deobOutput.add("*   Starting Arithmetic Deob*"+System.getProperty("line.separator"));
+        //if (!Updater.useOutput)
+            //Deob.deobOutput.add("*   Starting Arithmetic Deob*"+System.getProperty("line.separator"));
         System.out.println("*   Starting Arithmetic Deob*");
         List<InsnWrapper> replace = getInstructions();
         for(InsnWrapper wrap : replace){
@@ -43,8 +43,8 @@ public class ArithmeticDeob extends DeobFrame {
                 }
             }
         }
-        if (!Updater.useOutput)
-            Deob.deobOutput.add("*   Arithmetic Deob Finished*"+System.getProperty("line.separator"));
+        //if (!Updater.useOutput)
+            //Deob.deobOutput.add("*   Arithmetic Deob Finished*"+System.getProperty("line.separator"));
         System.out.println("*   Arithmetic Deob Finished*");
         return classes;
     }
@@ -123,8 +123,8 @@ public class ArithmeticDeob extends DeobFrame {
                 theData.add(new InsnWrapper(mn, node.name, insnArray));
             }
         }
-        if (!Updater.useOutput)
-            Deob.deobOutput.add("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*"+System.getProperty("line.separator"));
+        //if (!Updater.useOutput)
+            //Deob.deobOutput.add("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*"+System.getProperty("line.separator"));
         System.out.println("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*");
         return theData;
     }
