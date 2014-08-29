@@ -4,7 +4,6 @@ import com.srlupdater.deob.ArithmeticDeob.ArithmeticDeob;
 import com.srlupdater.deob.ControlFlowCorrection.ControlFlowCorrection;
 import com.srlupdater.deob.Generic.DumpJar;
 import com.srlupdater.deob.RedundantMethod.MethodRemoval;
-import com.srlupdater.updater.Updater;
 import org.objectweb.asm.tree.ClassNode;
 
 import java.io.BufferedWriter;
@@ -29,14 +28,13 @@ public class Deob {
         this.classes=classes;
         this.useOutput = useOutput;
         this.dumpClasses = dumpClasses;
-
     }
 
     public static List<String> deobOutput = new ArrayList<String>();
     public BufferedWriter writer = null;
     public HashMap<String, ClassNode> run(){
         System.out.println("{*Starting Deob*");
-        if (useOutput) {
+        if (!useOutput) {
             classes = new MethodRemoval(classes).refactor();
         } else {
             try {
@@ -47,7 +45,8 @@ public class Deob {
                     i++;
                 }
             }
-            catch ( IOException e) {
+            catch ( IOException e)
+            {
                 e.printStackTrace();
             }
         }
@@ -57,17 +56,18 @@ public class Deob {
             classes = new ArithmeticDeob(classes).refactor();
             new DumpJar(classes).createJar();
         }
-        if (useOutput) {
+        if (!useOutput) {
             try {
                 writer = new BufferedWriter( new FileWriter("output.txt"));
                 int i = 0;
                 while (i < deobOutput.size()) {
-                    writer.write((String)deobOutput.get(i)); //store deob debug in output.txt for when useOutput = true
+                    writer.write((String)deobOutput.get(i)); //store deob debug in output.txt when useOutput = false
                     i++;
                 }
             }
             catch ( IOException e)
             {
+                e.printStackTrace();
             }
             finally
             {
@@ -78,6 +78,7 @@ public class Deob {
                 }
                 catch ( IOException e)
                 {
+                    e.printStackTrace();
                 }
             }
         }

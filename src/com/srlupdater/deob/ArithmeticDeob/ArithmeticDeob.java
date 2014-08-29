@@ -1,9 +1,7 @@
 package com.srlupdater.deob.ArithmeticDeob;
 
 
-import com.srlupdater.deob.Deob;
 import com.srlupdater.deob.Generic.DeobFrame;
-import com.srlupdater.updater.Updater;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -24,7 +22,7 @@ public class ArithmeticDeob extends DeobFrame {
     @Override
     public HashMap<String,ClassNode> refactor(){
         //if (!Updater.useOutput)
-            //Deob.deobOutput.add("*   Starting Arithmetic Deob*"+System.getProperty("line.separator"));
+        //    Deob.deobOutput.add("*   Starting Arithmetic Deob*"+System.getProperty("line.separator"));
         System.out.println("*   Starting Arithmetic Deob*");
         List<InsnWrapper> replace = getInstructions();
         for(InsnWrapper wrap : replace){
@@ -44,7 +42,7 @@ public class ArithmeticDeob extends DeobFrame {
             }
         }
         //if (!Updater.useOutput)
-            //Deob.deobOutput.add("*   Arithmetic Deob Finished*"+System.getProperty("line.separator"));
+        //    Deob.deobOutput.add("*   Arithmetic Deob Finished*"+System.getProperty("line.separator"));
         System.out.println("*   Arithmetic Deob Finished*");
         return classes;
     }
@@ -124,7 +122,7 @@ public class ArithmeticDeob extends DeobFrame {
             }
         }
         //if (!Updater.useOutput)
-            //Deob.deobOutput.add("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*"+System.getProperty("line.separator"));
+        //    Deob.deobOutput.add("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*"+System.getProperty("line.separator"));
         System.out.println("*      "+Integer.toString(LDCIMULGETSTATIC)+"/"+Integer.toString(GETSTATICIMULLDC+LDCIMULGETSTATIC)+" expressions modified*");
         return theData;
     }

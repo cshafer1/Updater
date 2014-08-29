@@ -1,6 +1,5 @@
 package com.srlupdater.updater.injection.analyzers;
 
-import com.srlupdater.updater.Updater;
 import com.srlupdater.updater.injection.generic.AbstractAnalyzer;
 import com.srlupdater.updater.injection.generic.Hook;
 import org.objectweb.asm.tree.ClassNode;
@@ -32,7 +31,6 @@ public class NodeCacheAnalyzer extends AbstractAnalyzer {
         return count == 3;
     }
 
-    private Hook hook;
 
     /*private void fieldAnalyzer(ClassNode node) {
         ArrayList<String> descriptors = new ArrayList<String>();
@@ -54,11 +52,11 @@ public class NodeCacheAnalyzer extends AbstractAnalyzer {
                 continue;
             }
         }
-    } */
+    }*/
 
     @Override
     protected Hook analyse(ClassNode node) {
-        hook = new Hook("NodeCache",node.name);
+        Hook hook = new Hook("NodeCache",node.name);
         classNodes.put("NodeCache",node);
         return hook;
     }

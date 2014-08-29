@@ -1,6 +1,5 @@
 package com.srlupdater.updater.injection.analyzers;
 
-import com.srlupdater.updater.Updater;
 import com.srlupdater.updater.injection.generic.AbstractAnalyzer;
 import com.srlupdater.updater.injection.generic.Hook;
 import org.objectweb.asm.Opcodes;
@@ -26,11 +25,10 @@ public class LinkedListAnalyzer extends AbstractAnalyzer {
         }
         return nodeCount == 2 && fieldCount == 2;
     }
-    private Hook hook;
 
     @Override
     protected Hook analyse(ClassNode node) {
-        hook = new Hook("LinkedList",node.name);
+        Hook hook = new Hook("LinkedList",node.name);
         classNodes.put("LinkedList",node);
         return hook;
     }

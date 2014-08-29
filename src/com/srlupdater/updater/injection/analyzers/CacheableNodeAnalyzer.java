@@ -1,6 +1,5 @@
 package com.srlupdater.updater.injection.analyzers;
 
-import com.srlupdater.updater.Updater;
 import com.srlupdater.updater.injection.generic.AbstractAnalyzer;
 import com.srlupdater.updater.injection.generic.Hook;
 import org.objectweb.asm.tree.ClassNode;
@@ -12,7 +11,7 @@ public class CacheableNodeAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.equals(classNodes.get("Node").name))
+        if (!node.superName.endsWith(classNodes.get("Node").name))
             return false;
         int countSelf = 0;
         ListIterator<FieldNode> li = node.fields.listIterator();
@@ -26,11 +25,10 @@ public class CacheableNodeAnalyzer extends AbstractAnalyzer {
         }
         return countSelf == 2;
     }
-    private Hook hook;
 
     @Override
     protected Hook analyse(ClassNode node) {
-        hook = new Hook("CacheableNode",node.name);
+        Hook hook = new Hook("CacheableNode",node.name);
         classNodes.put("CacheableNode",node);
         return hook;
     }

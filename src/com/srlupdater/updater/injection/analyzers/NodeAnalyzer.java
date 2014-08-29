@@ -6,7 +6,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 
-import java.lang.reflect.Modifier;
 import java.util.ListIterator;
 
 public class NodeAnalyzer extends AbstractAnalyzer {
@@ -26,7 +25,7 @@ public class NodeAnalyzer extends AbstractAnalyzer {
         return selfCount == 2 && longCount == 1;
     }
 
-    private void getPrevNext(ClassNode node) {
+    /*private void getPrevNext(ClassNode node) {
         ListIterator<FieldNode> li = node.fields.listIterator();
         while (li.hasNext()) {
             FieldNode fn = li.next();
@@ -40,13 +39,11 @@ public class NodeAnalyzer extends AbstractAnalyzer {
                 hook.addFieldHook("id", fn.name, fn.desc);
             }
         }
-    }
-
-    private Hook hook;
+    }*/
 
     @Override
     protected Hook analyse(ClassNode node) {
-        hook = new Hook("Node",node.name);
+        Hook hook = new Hook("Node",node.name);
         classNodes.put("Node",node);
         return hook;
     }

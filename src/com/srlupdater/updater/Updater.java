@@ -1,6 +1,5 @@
 package com.srlupdater.updater;
 
-import com.srlupdater.deob.Deob;
 import com.srlupdater.updater.injection.analyzers.*;
 import com.srlupdater.updater.injection.generic.AbstractAnalyzer;
 import com.srlupdater.updater.injection.generic.FieldHook;
@@ -107,9 +106,9 @@ public class Updater {
             if (cachedClient.exists()) { //Only continue if the final client exists
                 HashMap<String, ClassNode> ClassMap = JarUtils.parseJar(new JarFile(cachedClient));
                 /*if(!useOutput) {
-                Deob deob = new Deob(ClassMap, false, false);
+                Deob deob = new Deob(ClassMap, useOutput, dumpClasses);
                 ClassMap = deob.run();
-                }      */
+                }*/
                 System.out.println(" ");
                 System.out.println("const");
                 if (CustomRevison > 0) {
@@ -143,13 +142,20 @@ public class Updater {
 
         analyzers.add(new NodeAnalyzer());
         analyzers.add(new CacheableNodeAnalyzer());
+        analyzers.add(new LinkedListAnalyzer());
+        analyzers.add(new StreamAnalyzer());
         analyzers.add(new RenderableAnalyzer());
         analyzers.add(new ActorAnalyzer());
+        analyzers.add(new CacheableNodeQueueAnalyzer());
         analyzers.add(new NodeHashTableAnalyzer());
-        analyzers.add(new LinkedListAnalyzer());
-        analyzers.add(new CacheableNodeQueueAnaylyzer());
         analyzers.add(new NodeCacheAnalyzer());
-        analyzers.add(new StreamAnalyzer());
+        analyzers.add(new ModelAnalyzer());
+        analyzers.add(new StringStorageAnalyzer());
+        analyzers.add(new ItemDefinitionAnalyzer());
+        analyzers.add(new ItemAnalyzer());
+        analyzers.add(new ObjectDefinitionAnalyzer());
+        analyzers.add(new NpcDefinitionAnalyzer());
+        analyzers.add(new NpcAnalyzer());
 
         Collection<ClassNode> classNodes = classMap.values();
         for(AbstractAnalyzer analyzer : analyzers){

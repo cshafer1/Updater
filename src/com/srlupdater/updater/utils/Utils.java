@@ -1,10 +1,7 @@
 package com.srlupdater.updater.utils;
 
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.JumpInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -138,6 +135,17 @@ public final class Utils{
             if (mn.name.equals("<init>"))
                 if (mn.desc.contains(desc))
                     return true;
+        }
+        return false;
+    }
+
+
+    public static boolean findInstruction(MethodNode mn, AbstractInsnNode ain) {
+        ListIterator<AbstractInsnNode> ainli = mn.instructions.iterator();
+        while (ainli.hasNext()) {
+            AbstractInsnNode next = ainli.next();
+            if (match(next, ain))
+                return true;
         }
         return false;
     }
@@ -285,6 +293,112 @@ public final class Utils{
     public static Image grayScaleImage(Image img, int percent) {
         ImageProducer producer = new FilteredImageSource(img.getSource(), new GrayFilter(true, percent));
         return Toolkit.getDefaultToolkit().createImage(producer);
+    }
+
+
+
+    public static boolean match(AbstractInsnNode haystack, AbstractInsnNode needle) {
+        if (needle instanceof NullInsnNode)
+            return true;
+        if (needle instanceof MethodInsnNode)
+            return match(haystack, (MethodInsnNode) needle);
+        else if (needle instanceof FieldInsnNode)
+            return match(haystack, (FieldInsnNode) needle);
+        else if (needle instanceof IntInsnNode)
+            return match(haystack, (IntInsnNode) needle);
+        else if (needle instanceof TypeInsnNode)
+            return match(haystack, (TypeInsnNode) needle);
+        else if (needle instanceof VarInsnNode)
+            return match(haystack, (VarInsnNode) needle);
+        else if (needle instanceof LdcInsnNode)
+            return match(haystack, (LdcInsnNode) needle);
+        else if (needle instanceof JumpInsnNode)
+            return haystack instanceof JumpInsnNode;
+        return haystack.getOpcode() == needle.getOpcode();
+    }
+
+    public static boolean match(AbstractInsnNode a, MethodInsnNode b) {
+        if (!(a instanceof MethodInsnNode))
+            return false;
+        if (b.getOpcode() == 0)
+            return true;
+        MethodInsnNode c = (MethodInsnNode) a;
+        if (b.desc != null)
+            if (!b.desc.equals(c.desc))
+                return false;
+        if (b.owner != null)
+            if (!b.owner.equals(c.owner))
+                return false;
+        if (b.name != null)
+            if (!b.name.equals(c.name))
+                return false;
+        return c.getOpcode() == b.getOpcode();
+    }
+
+    public static boolean match(AbstractInsnNode a, FieldInsnNode b) {
+        if (!(a instanceof FieldInsnNode))
+            return false;
+        if (b.getOpcode() == 0)
+            return true;
+        FieldInsnNode c = (FieldInsnNode) a;
+        if (b.desc != null)
+            if (!b.desc.equals(c.desc))
+                return false;
+        if (b.owner != null)
+            if (!b.owner.equals(c.owner))
+                return false;
+        if (b.name != null)
+            if (!b.name.equals(c.name))
+                return false;
+        return c.getOpcode() == b.getOpcode();
+    }
+
+    public static boolean match(AbstractInsnNode a, IntInsnNode b) {
+        if (!(a instanceof IntInsnNode))
+            return false;
+        if (b.getOpcode() == 0)
+            return true;
+        IntInsnNode c = (IntInsnNode) a;
+        if (b.operand != 9000)
+            if (c.operand != b.operand)
+                return false;
+        return c.getOpcode() == b.getOpcode();
+    }
+
+    public static boolean match(AbstractInsnNode a, TypeInsnNode b) {
+        if (!(a instanceof TypeInsnNode))
+            return false;
+        if (b.getOpcode() == 0)
+            return true;
+        TypeInsnNode c = (TypeInsnNode) a;
+        if (c.desc != null)
+            if (!c.desc.equals(b.desc))
+                return false;
+        return c.getOpcode() == b.getOpcode();
+    }
+
+    public static boolean match(AbstractInsnNode a, VarInsnNode b) {
+        if (!(a instanceof VarInsnNode))
+            return false;
+        if (b.getOpcode() == 0)
+            return true;
+        VarInsnNode c = (VarInsnNode) a;
+        if (b.var != 9000)
+            if (c.var != b.var)
+                return false;
+        return c.getOpcode() == b.getOpcode();
+    }
+
+    public static boolean match(AbstractInsnNode a, LdcInsnNode b) {
+        if (!(a instanceof LdcInsnNode))
+            return false;
+        if (b.getOpcode() == 0)
+            return true;
+        LdcInsnNode c = (LdcInsnNode) a;
+        if (b.cst != null)
+            if (!c.cst.equals(b.cst))
+                return false;
+        return c.getOpcode() == b.getOpcode();
     }
 
 }
