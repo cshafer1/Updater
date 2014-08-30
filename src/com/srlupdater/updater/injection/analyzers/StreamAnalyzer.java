@@ -9,7 +9,7 @@ public class StreamAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("Node").name))
+        if (!node.superName.endsWith(classNodes.get("Node").name) || classNodes.containsKey("Stream"))
             return false;
         if (node.methods.size() < 20)
             return false;

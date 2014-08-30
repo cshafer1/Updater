@@ -9,7 +9,7 @@ public class NodeHashTableAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith("Object"))
+        if (!node.superName.endsWith("Object") || classNodes.containsKey("NodeHashTable"))
             return false;
         if (node.fields.size() >= 2) {
             for (int fni=0; fni < node.fields.size(); fni++) {

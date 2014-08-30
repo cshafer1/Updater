@@ -9,7 +9,7 @@ public class RenderableAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (node.superName.endsWith(classNodes.get("CacheableNode").name))
+        if (node.superName.endsWith(classNodes.get("CacheableNode").name) && !classNodes.containsKey("Renderable"))
             if (node.access == (Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT + Opcodes.ACC_SUPER))
                 return true;
         return false;

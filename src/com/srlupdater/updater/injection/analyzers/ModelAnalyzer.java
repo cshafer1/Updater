@@ -14,7 +14,7 @@ public class ModelAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("Renderable").name))
+        if (!node.superName.endsWith(classNodes.get("Renderable").name) || classNodes.containsKey("Model"))
             return false;
         ListIterator<MethodNode> mnLi = node.methods.listIterator();
         int count = 0; // static boolean[] of length 4096, we want 2 of them.

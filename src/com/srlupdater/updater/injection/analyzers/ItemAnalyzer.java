@@ -12,7 +12,7 @@ public class ItemAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.equals(classNodes.get("Renderable").name))
+        if (!node.superName.equals(classNodes.get("Renderable").name) || classNodes.containsKey("Item"))
             return false;
         ListIterator<MethodNode> mnli = node.methods.listIterator();
         while (mnli.hasNext()) {

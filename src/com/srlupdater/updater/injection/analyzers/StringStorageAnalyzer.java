@@ -4,19 +4,16 @@ import com.srlupdater.updater.injection.generic.AbstractAnalyzer;
 import com.srlupdater.updater.injection.generic.Hook;
 import com.srlupdater.updater.utils.Utils;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class StringStorageAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
+        if (classNodes.containsKey("StringStorage"))
+            return false;
         int count = 0;
         ListIterator<FieldNode> li = node.fields.listIterator();
         while (li.hasNext()) {
@@ -27,23 +24,42 @@ public class StringStorageAnalyzer extends AbstractAnalyzer {
         return count > 20;
     }
 
-    public static List<String> StringStorageValues = new ArrayList<String>();
+    public static HashMap<String, String> StringStorageValues = new HashMap<String, String>();
 
     private void storeStrings(ClassNode node) {
-        ListIterator<FieldNode> li = node.fields.listIterator();
-        while (li.hasNext()) {
-            FieldNode fn = li.next();
-            if (fn.desc.equals("Ljava/lang/String;"))
-                StringStorageValues.add(fn.name);
+        ListIterator<MethodNode> mnli = node.methods.listIterator();
+        while (mnli.hasNext()) {
+            MethodNode mn = mnli.next();
+            if (mn.name.equals("<clinit>")) {
+                ListIterator<AbstractInsnNode> ainli = mn.instructions.iterator();
+                while (ainli.hasNext()) {
+                    AbstractInsnNode ain = ainli.next();
+                    if (ain.getOpcode() == Opcodes.LDC) {
+                        String text = (String) ((LdcInsnNode) ain).cst;
+                        if (text == null)
+                            continue;
+                        if (text.length() < 4)
+                            continue;
+                        AbstractInsnNode next = ain.getNext();
+                        if (next.getOpcode() == Opcodes.PUTSTATIC) {
+                            FieldInsnNode fin = (FieldInsnNode) next;
+                            String[] theValues = new String[]{text};
+                            for (int i=0; i<theValues.length; i++) {
+                                if (!StringStorageValues.containsKey(theValues[i])) {
+                                    StringStorageValues.put(theValues[i], fin.name);
+                                }
+                                //System.out.println(theValues[i]);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     public static String getStringStorageField(String lookupString) {
-        int i = 0;
-        while (i < StringStorageValues.size()) {
-            if (lookupString.equals(StringStorageValues.get(i)))
-                return StringStorageValues.get(i);
-        }
+        if (StringStorageValues.containsKey(lookupString))
+            return StringStorageValues.get(lookupString);
         return "";
     }
 

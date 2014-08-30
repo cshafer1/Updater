@@ -11,15 +11,16 @@ public class NpcAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("Actor").name))
+        if (!node.superName.endsWith(classNodes.get("Actor").name) || classNodes.containsKey("Npc"))
             return false;
         ListIterator<FieldNode> li = node.fields.listIterator();
-        while (li.hasNext()) {
-            FieldNode fn = li.next();
-            if (fn.desc.equals("L" + classNodes.get("NpcDefinition").name + ";")) {
-                return true;
+        if (classNodes.containsKey("NpcDefinition"))
+            while (li.hasNext()) {
+                FieldNode fn = li.next();
+                if (fn.desc.equals("L" + classNodes.get("NpcDefinition").name + ";")) {
+                    return true;
+                }
             }
-        }
         return false;
     }
 

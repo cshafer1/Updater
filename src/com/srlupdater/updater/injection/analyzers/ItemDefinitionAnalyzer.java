@@ -13,20 +13,20 @@ public class ItemDefinitionAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("CacheableNode").name))
+        if (!node.superName.endsWith(classNodes.get("CacheableNode").name) || classNodes.containsKey("ItemDefinition"))
             return false;
         ListIterator<MethodNode> mnli = node.methods.listIterator();
         while (mnli.hasNext()) {
             MethodNode mn = mnli.next();
             if (mn.name.equals("<init>")) {
-                getActions(mn, false);
+                getActions(mn);
                 break;
             }
         }
         return foundActions;
     }
 
-    private void getActions(MethodNode constructor, Boolean addYet) {
+    private void getActions(MethodNode constructor) {
         ListIterator<AbstractInsnNode> ainli = constructor.instructions.iterator();
         boolean gFlag = false;
         boolean iFlag = false;
@@ -36,7 +36,7 @@ public class ItemDefinitionAnalyzer extends AbstractAnalyzer {
             AbstractInsnNode ain = ainli.next();
             if (ain.getOpcode() == Opcodes.ANEWARRAY) {
                 TypeInsnNode tin = (TypeInsnNode) ain;
-                if (tin.desc.equals("java/lang/String")) {
+                if (tin.desc.contains("java/lang/String")) {
                     while (ain.getNext() != null) {
                         ain = ain.getNext();
                         if (ain.getOpcode() == Opcodes.GETSTATIC) {

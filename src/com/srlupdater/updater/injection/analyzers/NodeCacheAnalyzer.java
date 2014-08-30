@@ -12,7 +12,7 @@ public class NodeCacheAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith("Object"))
+        if (!node.superName.endsWith("Object") || classNodes.containsKey("NodeCache"))
             return false;
         ArrayList<String> descriptors = new ArrayList<String>();
         descriptors.add(classNodes.get("CacheableNode").name);

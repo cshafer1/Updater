@@ -13,9 +13,9 @@ public class NodeAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        int selfCount = 0, longCount = 0;
-        if(!node.superName.contains("java") || node.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER)
+        if(!node.superName.contains("java") || node.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER || classNodes.containsKey("Node"))
             return false;
+        int selfCount = 0, longCount = 0;
         ListIterator<FieldNode> fnIt = node.fields.listIterator();
         while(fnIt.hasNext()){
             FieldNode fn = fnIt.next();
@@ -49,7 +49,7 @@ public class NodeAnalyzer extends AbstractAnalyzer {
 
         @Override
         protected boolean canRun() {
-            return !hook.getFieldHooks().containsKey("getPrev") && fn.desc.equals(String.format("L%s;", node.name)) && (fn.access == Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER);
+            return !hook.getFieldHooks().containsKey("getPrev") && fn.desc.equals(String.format("L%s;", node.name)) && (fn.access == Opcodes.ACC_PUBLIC);
         }
 
         @Override
@@ -65,7 +65,7 @@ public class NodeAnalyzer extends AbstractAnalyzer {
 
         @Override
         protected boolean canRun() {
-            return !hook.getFieldHooks().containsKey("getNext") && fn.desc.equals(String.format("L%s;", node.name)) && (fn.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER);
+            return !hook.getFieldHooks().containsKey("getNext") && fn.desc.equals(String.format("L%s;", node.name)) && (fn.access != Opcodes.ACC_PUBLIC);
         }
 
         @Override

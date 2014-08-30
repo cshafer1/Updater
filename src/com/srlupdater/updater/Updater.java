@@ -161,9 +161,8 @@ public class Updater {
         for(AbstractAnalyzer analyzer : analyzers){
             for(ClassNode classNode : classNodes){
                 analyzerHook = analyzer.run(classNode);
-                if(analyzerHook != null){
+                if(analyzerHook != null)
                     hooks.add(analyzerHook);
-                }
             }
         }
     }

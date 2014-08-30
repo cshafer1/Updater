@@ -9,7 +9,7 @@ public class CacheableNodeQueueAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith("Object"))
+        if (!node.superName.endsWith("Object") || classNodes.containsKey("CacheableNodeQueue"))
             return false;
         if (node.fields.size() == 1)
             if (((FieldNode) node.fields.get(0)).desc.equals("L" + classNodes.get("CacheableNode").name + ";"))

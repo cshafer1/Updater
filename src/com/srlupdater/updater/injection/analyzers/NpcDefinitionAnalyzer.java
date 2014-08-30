@@ -8,7 +8,7 @@ public class NpcDefinitionAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("CacheableNode").name))
+        if (!node.superName.endsWith(classNodes.get("CacheableNode").name) || classNodes.containsKey("NpcDefinition"))
             return false;
         return StringStorageAnalyzer.findSSRef("Hidden", node);
     }

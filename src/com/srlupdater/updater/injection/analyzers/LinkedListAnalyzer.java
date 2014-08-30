@@ -12,6 +12,8 @@ public class LinkedListAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
+        if (classNodes.containsKey("LinkedList"))
+            return false;
         int fieldCount = 0;
         int nodeCount = 0;
         ListIterator<FieldNode> fnIt = node.fields.listIterator();

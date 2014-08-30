@@ -11,7 +11,7 @@ public class ObjectDefinitionAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("CacheableNode").name))
+        if (!node.superName.endsWith(classNodes.get("CacheableNode").name) || classNodes.containsKey("ObjectDefinition"))
             return false;
         ListIterator<MethodNode> mnli = node.methods.listIterator();
         while (mnli.hasNext()) {
