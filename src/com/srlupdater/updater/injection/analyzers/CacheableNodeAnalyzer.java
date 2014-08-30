@@ -11,7 +11,7 @@ public class CacheableNodeAnalyzer extends AbstractAnalyzer {
 
     @Override
     protected boolean canRun(ClassNode node) {
-        if (!node.superName.endsWith(classNodes.get("Node").name))
+        if (!node.superName.equals(classNodes.get("Node").name))
             return false;
         int countSelf = 0;
         ListIterator<FieldNode> li = node.fields.listIterator();
